@@ -99,7 +99,9 @@ class BuildWorker extends WorkerBase {
         Del.sync(codeFilesDist, {force: true});
 
         // copy .ccreator
-        this._copyTo(Constants.CCREATOR_PATH, resdst, ['.ccreator'], true);
+        // this._copyTo(Constants.CCREATOR_PATH, resdst, ['.ccreator'], true);
+        // copy .json
+        this._copyTo(Constants.JSON_PATH, resdst, ['.json'], true);
         // copy reader
         // should exclude binding codes for c++ project
         Fs.copySync(Constants.READER_PATH, codeFilesDist);
