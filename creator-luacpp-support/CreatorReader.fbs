@@ -132,6 +132,7 @@ table Label
     fontType:FontType;
     overflowType:LabelOverflowType;
     enableWrap:bool;
+    outline:LabelOutline;
 }
 
 table RichText
@@ -410,84 +411,112 @@ table AnimPropRotation
 {
     frame:float;
     value:float;
+    curveType:string;
+    curveData:[float];
 }
 
 table AnimPropPosition
 {
     frame:float;
     value:Vec2;
+    curveType:string;
+    curveData:[float];
 }
 
 table AnimPropPositionX
 {
     frame:float;
     value:float;
+    curveType:string;
+    curveData:[float];
 }
 
 table AnimPropPositionY
 {
     frame:float;
     value:float;
+    curveType:string;
+    curveData:[float];
 }
 
 table AnimPropScaleX
 {
     frame:float;
     value:float;
+    curveType:string;
+    curveData:[float];
 }
 
 table AnimPropScaleY
 {
     frame:float;
     value:float;
+    curveType:string;
+    curveData:[float];
 }
 
 table AnimPropWidth
 {
     frame:float;
     value:float;
+    curveType:string;
+    curveData:[float];
 }
 
 table AnimPropHeight
 {
     frame:float;
     value:float;
+    curveType:string;
+    curveData:[float];
 }
 
 table AnimPropColor
 {
     frame:float;
     value:ColorRGBA;
+    curveType:string;
+    curveData:[float];
 }
 
 table AnimPropOpacity
 {
     frame:float;
     value:float;
+    curveType:string;
+    curveData:[float];
 }
 
 table AnimPropAnchorX
 {
     frame:float;
     value:float;
+    curveType:string;
+    curveData:[float];
 }
 
 table AnimPropAnchorY
 {
     frame:float;
     value:float;
+    curveType:string;
+    curveData:[float];
 }
 
 table AnimPropSkewX
 {
     frame:float;
     value:float;
+    curveType:string;
+    curveData:[float];
 }
 
 table AnimPropSkewY
 {
     frame:float;
     value:float;
+    curveType:string;
+    curveData:[float];
 }
 
 
@@ -535,6 +564,12 @@ struct ColorRGBA
     g:ubyte;
     b:ubyte;
     a:ubyte;
+}
+
+table LabelOutline
+{
+    color:ColorRGBA;
+    width:float;
 }
 
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-

@@ -76,40 +76,14 @@ class BuildWorker extends WorkerBase {
         // root path of resources
         let resdst;
         let classes;
-        let isLuaProject = Utils.isLuaProject(projectRoot);
-        if (isLuaProject) {
-            resdst = Path.join(projectRoot, 'res');
-
-            classes = Path.join(projectRoot, 'frameworks/runtime-src/Classes');
-            if (!Fs.existsSync(classes))
-                classes = Path.join(projectRoot, 'project/Classes'); // cocos2d-x internal lua tests
-        } 
-        else {
-            resdst = Path.join(projectRoot, 'Resources');
-            classes = Path.join(projectRoot, 'Classes');
-        }
+		resdst = Path.join(projectRoot, 'res');
         // move all resources into 'creator' folder
         resdst = Path.join(resdst, Constants.RESOURCE_FOLDER_NAME);
-        // remove all .cpp/.h files into 'reader'
-        //classes = Path.join(classes, 'reader');
-        let codeFilesDist = Path.join(classes, 'reader')
-
         // remove previous reader and resources first
         Del.sync(resdst, {force: true});
-        Del.sync(codeFilesDist, {force: true});
 
-        // copy .ccreator
-        // this._copyTo(Constants.CCREATOR_PATH, resdst, ['.ccreator'], true);
         // copy .json
         this._copyTo(Constants.JSON_PATH, resdst, ['.json'], true);
-        // copy reader
-        // should exclude binding codes for c++ project
-        Fs.copySync(Constants.READER_PATH, codeFilesDist);
-        if (!isLuaProject)
-        {
-            let bindingCodesPath = Path.join(classes, 'reader/lua-bindings');
-            Del.sync(bindingCodesPath, {force: true});
-        }
 
         Object.keys(copyReourceInfos).forEach(function(uuid) {
             let pathInfo = copyReourceInfos[uuid];
