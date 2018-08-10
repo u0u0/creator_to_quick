@@ -82,6 +82,12 @@ Editor.Panel.extend({
                     Editor.Panel.close('creator-luacpp-support');
                 },
 
+                _onChangeExportDynamicallyLoadResource(event) {
+                    event.stopPropagation();
+                    this.profileProject.data.exportResourceDynamicallyLoaded = event.target.value;
+                    this.profileProject.save();
+                },
+
                 _onChangeAutoBuild(event) {
                     event.stopPropagation();
                     this.profileProject.data.autoBuild = event.target.value;

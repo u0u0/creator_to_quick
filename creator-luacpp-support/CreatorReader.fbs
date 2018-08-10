@@ -22,7 +22,7 @@ enum ColliderType:byte {BoxCollider, PolygonCollider, CircleCollider}
 // New nodes should be added at the end of the union
 // no more than 255 union objects can be added
 union AnyNode {Scene, Sprite, Label, Particle, TileMap, Node, Button, ProgressBar, ScrollView, CreatorScene, 
-               EditBox, RichText, SpineSkeleton, VideoPlayer, WebView, Slider, Toggle, ToggleGroup, PageView, Mask, DragonBones}
+               EditBox, RichText, SpineSkeleton, VideoPlayer, WebView, Slider, Toggle, ToggleGroup, PageView, Mask, DragonBones, MotionStreak}
 
 table SceneGraph
 {
@@ -308,6 +308,17 @@ table PageView
     background:PageViewBackground;
 }
 
+table MotionStreak
+{
+    node:Node;
+    timeToFade:float;
+    minSeg:float;
+    strokeWidth:float;
+    strokeColor:ColorRGB;
+    texturePath:string;
+    fastMode:bool;
+}
+
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 // Misc Nodes and extensions
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -362,7 +373,8 @@ table DragonBones
 //
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-enum AnimWrapMode:byte {Default, Normal, Loop, PingPong, Reverse, LoopReverse, PingPongReverse}
+// refer to: https://github.com/cocos-creator/engine/blob/master/cocos2d/animation/types.js#L28
+enum AnimWrapMode:byte {Default = 0, Normal = 1, Loop = 2, PingPong = 22, Reverse = 36, LoopReverse = 38, PingPongReverse = 54}
 
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 // Animation Clip

@@ -10,8 +10,11 @@ const Constants = require('./Constants');
 const Fs = require('fire-fs');
 const Del = require('del')
 const parse_fire = require('./parser/ConvertFireToJson');
+const parse_utils = require('./parser/Utils')
 
 const {WorkerBase, registerWorker} = require('./WorkerBase');
+
+const plugin_profile = 'profile://project/creator-luacpp-support.json';
 
 class BuildWorker extends WorkerBase {
     run(state, callback) {
@@ -27,6 +30,8 @@ class BuildWorker extends WorkerBase {
 
         Utils.getAssetsInfo(function(uuidmap) {
             let copyReourceInfos = this._convertFireToJson(uuidmap);
+            let dynamicLoadRes = this._getDynamicLoadRes(uuidmap);
+            Object.assign(copyReourceInfos, dynamicLoadRes);
             this._compileJsonToBinary(function() {
                 this._copyResources(copyReourceInfos);
                 Editor.Ipc.sendToAll('creator-luacpp-support:state-changed', 'finish', 100);
@@ -37,7 +42,7 @@ class BuildWorker extends WorkerBase {
     }
 
     _convertFireToJson(uuidmap) {
-        let fireFiles = this._getFireList();  
+        let fireFiles = this._getFireList();
         let copyReourceInfos = parse_fire(fireFiles, 'creator', Constants.JSON_PATH, uuidmap);
 
         return copyReourceInfos;
@@ -76,7 +81,7 @@ class BuildWorker extends WorkerBase {
         // root path of resources
         let resdst;
         let classes;
-		resdst = Path.join(projectRoot, 'res');
+        resdst = Path.join(projectRoot, 'res');
         // move all resources into 'creator' folder
         resdst = Path.join(resdst, Constants.RESOURCE_FOLDER_NAME);
         // remove previous reader and resources first
@@ -137,6 +142,25 @@ class BuildWorker extends WorkerBase {
             }
         });
         return foundFiles;
+    }
+
+    // dynamically load resources located at assets/resources folder
+    _getDynamicLoadRes(uuidmap, collectedResources) {
+        let state = Editor.remote.Profile.load(plugin_profile, Constants.PROFILE_DEFAULTS);
+        if (!state.data.exportResourceDynamicallyLoaded)
+            return;
+        
+        let dynamicLoadRes = {};
+        let resourcesPath = Path.join(Constants.ASSETS_PATH, 'resources');
+
+        Object.keys(uuidmap).forEach(function(uuid) {
+            if(uuidmap[uuid].indexOf(resourcesPath) < 0)
+                return true;
+            
+            dynamicLoadRes[uuid] = parse_utils.get_relative_full_path_by_uuid(uuid);
+        });
+
+        return dynamicLoadRes;
     }
 }
 
